@@ -1,0 +1,27 @@
+general:
+  complete_verifier: skip
+model:
+  name: mnist_conv_small
+  path: models/eran/mnist_conv_small_nat.pth
+data:
+  # Use the calzone_mnist() loader in "custom_model_data.py".
+  dataset: Customized("custom_model_data_calzone", "calzone_mnist", pixels_group=list(range(5)))
+  start: 0
+  end: 5
+  std: [1.0]
+  mean: [0.0]
+specification:
+  type: box
+  # Element-wise perturbation. The magnitude of each pixel is defined in the cifar10() dataloader in custom_model_data.py.
+  epsilon: 0   #? 2./255. Used by cifar10() loader to generate element-wise bounds.
+solver:
+  batch_size: 10  # Number of subdomains to compute in parallel in beta-CROWN. Decrease if you run out of memory.
+  alpha-crown:
+    iteration: 100   # Number of iterations for alpha-CROWN optimization. Alpha-CROWN is used to compute all intermediate layer bounds before branch and bound starts.
+    lr_alpha: 0.1    # Learning rate for alpha in alpha-CROWN. The default (0.1) is typically ok.
+  beta-crown:
+    lr_alpha: 0.01  # Learning rate for optimizing the alpha parameters, the default (0.01) is typically ok, but you can try to tune this parameter to get better lower bound.
+    lr_beta: 0.05  # Learning rate for optimizing the beta parameters, the default (0.05) is typically ok, but you can try to tune this parameter to get better lower bound.
+    lr_decay: 0.999
+    iteration: 20  # Number of iterations for beta-CROWN optimization. 20 is often sufficient, 50 or 100 can also be used.
+
