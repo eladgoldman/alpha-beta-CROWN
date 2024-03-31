@@ -9,6 +9,14 @@
             "program": "abcrown.py",
             "console": "integratedTerminal",
             "args": "--config exp_configs/beta_crown/calzone.yaml --device cpu"
+        },
+        {
+            "name": "Python Debugger: calzone",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "C://Git2//alpha-beta-CROWN//complete_verifier",
+            "program": "calzone.py",
+            "console": "integratedTerminal",
         }
     ]
 }
